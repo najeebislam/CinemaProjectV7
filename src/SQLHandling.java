@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.*;
+import java.util.Date;
 
 public class SQLHandling {
     public static ArrayList<String> UserDetails = new ArrayList<>();
@@ -37,17 +38,18 @@ public class SQLHandling {
         }
 
     }
-    public static void SQLRegister(String RegisterUsername, String RegisterPassword) {
+    public static void SQLRegister(String RegisterUsername, String RegisterPassword, String Date) {
         String DatabaseLocation = System.getProperty("user.dir")+"\\CourseworkDatabase.accdb";
 
         try {
             Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation);
 
-            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            //Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Statement stmt = con.createStatement();
 
 
 
-            stmt.executeQuery("INSERT INTO UserDetails (Username, Password) VALUES ('"+RegisterUsername+","+ RegisterPassword+"')");
+            stmt.execute("INSERT INTO UserDetails (Username, Password, DateOfBirth) VALUES ('"+RegisterUsername+"', '"+ RegisterPassword+"', '"+ Date+"')");
 
 
 
@@ -60,5 +62,38 @@ public class SQLHandling {
             System.out.println("Error in the SQL class:" + e);
         }
 
+    }
+
+    public static ArrayList<String> FilmDetails = new ArrayList<>();
+    public static void SQLViewFilms() {
+        String DatabaseLocation = System.getProperty("user.dir")+"\\CourseworkDatabase.accdb";
+        try {
+            Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation, "", "");
+
+            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+            String sql = "SELECT * FROM FilmDetails";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())   {
+                System.out.println("Film: " + rs.getString("FilmName"));
+                System.out.println("Age Rating: " + rs.getString("AgeRating"));
+                System.out.println("Film Length: " + rs.getString("FilmLength")+" minutes");
+                System.out.println("Film Genre: " + rs.getString("FilmGenre"));
+                System.out.println("Cast: " + rs.getString("FilmCast"));
+                System.out.println("----------------------------------------------------------------------------------------");
+                FilmDetails.add(rs.getString("FilmName"));
+
+            }
+            rs.close();
+            con.close();
+
+
+
+
+        } catch (Exception e) {
+            System.out.println("Error in the SQL class:" + e);
+        }
     }
 }

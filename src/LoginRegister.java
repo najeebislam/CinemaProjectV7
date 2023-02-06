@@ -3,18 +3,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Scanner;
 public class LoginRegister {
+
+
     public static Scanner input = new Scanner(System.in);
 
     public static void LoginOrRegister() {
         try {
 
-            System.out.println("1 - Login \n 2 - Register");
+            System.out.println("1 - Login \n2 - Register");
             String OptionsChoice = input.next();
 
 
-            if (OptionsChoice.equals("Login")) {
+            if (OptionsChoice.equals("Login")||OptionsChoice.equals("1")) {
                 Login();
-            } else if (OptionsChoice.equals("Register")) {
+            } else if (OptionsChoice.equals("Register")||OptionsChoice.equals("2")) {
                 Register();
             } else {
                 System.out.println("Invalid Input! Type 'Login' or 'Register'");
@@ -47,6 +49,7 @@ public class LoginRegister {
     }
 
 
+
     public static void Register() {
 
         System.out.println("What will your username be?");
@@ -55,17 +58,21 @@ public class LoginRegister {
         System.out.println("Choose a password:");
         String RegisterPassword = input.next();
 
-        /*System.out.println("What is your date of birth?");
+        System.out.println("What is your date of birth?");
         String RegisterDOB = input.next();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate Date = LocalDate.parse(RegisterDOB, formatter);
 
-        SQLHandling.SQLRegister(RegisterUsername, RegisterPassword);
 
 
-        */
+        SQLHandling.SQLRegister(RegisterUsername, RegisterPassword, RegisterDOB);
+
 
     }
+
+
+
+
 
 }
