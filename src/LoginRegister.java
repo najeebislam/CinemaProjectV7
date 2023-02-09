@@ -28,14 +28,16 @@ public class LoginRegister {
 
     }
 
+    public static String LoginUsername;
+    public static String LoginPassword;
     public static void Login() {
         SQLHandling.SQLLogin();
         System.out.println("Username: ");
-        String LoginUsername = input.next();
+        LoginUsername = input.next();
 
 
         System.out.println("Password: ");
-        String LoginPassword = input.next();
+        LoginPassword = input.next();
 
         if(SQLHandling.UserDetails.contains(LoginUsername.toString() +","+  LoginPassword.toString()))  {
             System.out.println("Login Successful!");
@@ -67,6 +69,8 @@ public class LoginRegister {
 
 
         SQLHandling.SQLRegister(RegisterUsername, RegisterPassword, RegisterDOB);
+
+        Login();
 
 
     }
