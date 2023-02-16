@@ -131,4 +131,62 @@ public class SQLHandling {
             System.out.println("Error in the SQL class:" + e);
         }
     }
+
+
+    public static void SQLBooking(String FilmName,String Screen,String Date) {
+        String DatabaseLocation = System.getProperty("user.dir")+"\\CourseworkDatabase.accdb";
+
+        try {
+            Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation);
+
+            //Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Statement stmt = con.createStatement();
+
+
+
+            stmt.execute("INSERT INTO BookingDetails (FilmName, ScreenID, BookingDate) VALUES ('"+FilmName+"', '"+ Screen+"','"+ Date+"')");
+
+
+
+            con.close();
+
+
+
+
+        } catch (Exception e) {
+            System.out.println("Error in the SQL class:" + e);
+        }
+
+    }
+
+    public static ArrayList<String> ScreenDetails = new ArrayList<>();
+    public static void SQLDisplayScreens() {
+        String DatabaseLocation = System.getProperty("user.dir")+"\\CourseworkDatabase.accdb";
+        try {
+            Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation, "", "");
+
+            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+            String sql = "SELECT * FROM ScreenDetails";
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())   {
+                System.out.println("Screen Number: " + rs.getString("ScreenNumber"));
+                System.out.println("Seat Capacity: " + rs.getString("SeatCapacity"));
+                System.out.println("Screen Type: " + rs.getString("ScreenType"));
+                System.out.println("----------------------------------------------------------------------------------------");
+                ScreenDetails.add(rs.getString("ScreenNumber"));
+
+            }
+            rs.close();
+            con.close();
+
+
+
+
+        } catch (Exception e) {
+            System.out.println("Error in the SQL class:" + e);
+        }
+    }
 }
