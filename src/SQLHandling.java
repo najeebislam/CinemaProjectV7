@@ -76,8 +76,12 @@ public class SQLHandling {
     public static void SQLRegister(String RegisterUsername, String RegisterPassword, String Date) {
         String DatabaseLocation = System.getProperty("user.dir")+"\\CourseworkDatabase.accdb";
 
+
         try {
-            Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation);
+
+            Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation, "", "");
+
+            //Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation);
 
             //Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             Statement stmt = con.createStatement();
@@ -137,15 +141,41 @@ public class SQLHandling {
         String DatabaseLocation = System.getProperty("user.dir")+"\\CourseworkDatabase.accdb";
 
         try {
-            Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation);
+
+            Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation, "", "");
+
+            //Connection con = DriverManager.getConnection("jdbc:ucanaccess://" + DatabaseLocation);
 
             //Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             Statement stmt = con.createStatement();
 
+            ResultSet rs = stmt.executeQuery("SELECT FilmName FROM FilmDetails WHERE FilmName = '" + FilmName + "'");
+            //System.out.println(FilmName);
+            rs.next();
+            String filmNameValue = rs.getString(1);
 
 
-            stmt.execute("INSERT INTO BookingDetails (FilmName, ScreenID, BookingDate) VALUES ('"+FilmName+"', '"+ Screen+"','"+ Date+"')");
+            //int ScreenNumber = Integer.parseInt(Screen);
+            rs = stmt.executeQuery("SELECT ScreenID FROM ScreenDetails WHERE ScreenID = '" + Screen + "'");
+            //System.out.println(Screen);
+            rs.next();
+            int screenIDValue = rs.getInt(1);
 
+
+
+            String SQLLoginUsername = LoginRegister.LoginUsername;
+            rs = stmt.executeQuery("SELECT UserID FROM UserDetails WHERE Username = '" + SQLLoginUsername + "'");
+            //System.out.println(SQLLoginUsername);
+            rs.next();
+            int UserIDValue = rs.getInt(1);
+
+
+
+
+
+
+
+            stmt.execute("INSERT INTO BookingDetails (FilmName, ScreenID, UserID, BookingDate) VALUES ('"+filmNameValue+"', '"+ screenIDValue+"', '"+UserIDValue+"','"+ Date+"')");
 
 
             con.close();

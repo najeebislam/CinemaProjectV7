@@ -42,6 +42,7 @@ public class HomeScreen {
 
     public static void ViewAccountDetails() {
         SQLHandling.SQLViewAccountDetails();
+        HomeScreen();
     }
 
     public static void Booking(){
